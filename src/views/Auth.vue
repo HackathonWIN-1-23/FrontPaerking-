@@ -25,11 +25,11 @@
         <div class="btn-wrap">
           <button class="btn1">Зарегистрироваться</button>
           <div class="exx">
-            <button class="btn2"> <img src="../assets/google_icon.png" alt="logo of google "> Зарегистрироваться через Google</button>
+            <button  class="btn2"> <img src="../assets/google_icon.png" alt="logo of google "> Зарегистрироваться через Google</button>
           </div>
         </div>
         <div class="rout">
-          <router-link class="okk" to="/login">Войти </router-link>
+          <router-link class="okk" to="/login">Войт </router-link>
         </div>
       </form>
     </div>
@@ -85,8 +85,8 @@ export default {
             });
         }
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
