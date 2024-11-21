@@ -50,8 +50,7 @@ const bookSpot = () => {
   border-radius: 4px;
   border: 1px solid #ccc;
 }
-
-.booking-form button {
+  .booking-form button {
   padding: 10px;
   background-color: #4CAF50;
   color: white;
