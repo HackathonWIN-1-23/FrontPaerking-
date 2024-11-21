@@ -202,8 +202,8 @@ form {
 
 .form-wrap {
   background: white;
-  height: 55%;
-  width: 30%;
+  height: 60vh;
+  width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
