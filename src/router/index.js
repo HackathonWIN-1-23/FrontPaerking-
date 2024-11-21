@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import PlacesView from "@/views/PlacesView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,7 +35,7 @@ const router = createRouter({
       component: () => import('../views/AgreeView.vue'),
     },
     {
-      path: '/list',
+      path: '/parkings',
       name: 'list',
       component: () => import('../views/ListView.vue'),
     },
@@ -51,7 +52,12 @@ const router = createRouter({
       path: '/side',
       name: 'side',
       component: () => import('../views/Sidebar.vue'),
-    }
+    },
+    {
+      path: '/parkings/:id',
+      name: 'places',
+      component: PlacesView,
+    },
   ],
 })
 
