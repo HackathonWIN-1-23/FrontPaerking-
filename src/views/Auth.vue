@@ -7,11 +7,7 @@
       </div>
       <form class="double-wrap" @submit.prevent="register">
         <div class="inp-wrap">
-          <!-- <label  for="inp1">First Name</label>
-      <input id="inp1"  v-model="hello" type="text" name="inp1" required>
-      <label  for="inp2">Last Name</label>
-      <input id="inp2"  v-model="hello" type="text"> -->
-          <label for="inp3">Электронная почта</label>
+          <label for="inp3">Имя</label>
           <input id="inp3" v-model="formData.email" type="email" required>
           <p v-if="errors.email.length">{{ errors.email }}</p>
           <label for="inp4">Пароль</label>
@@ -23,7 +19,7 @@
           <label>Показать пароль</label>
         </div>
         <div class="btn-wrap">
-          <button class="btn1">Зарегистрироваться</button>
+          <button class="btn1" @click="register">Зарегистрироваться</button>
           <div class="exx">
             <button  class="btn2"> <img src="../assets/google_icon.png" alt="logo of google "> Зарегистрироваться через Google</button>
           </div>
@@ -53,39 +49,10 @@ export default {
     }
   },
   methods: {
-    async register() {
-      const URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${import.meta.env.VITE_FIREBASE_API_KEY}`
-      const OPTIONS = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(this.formData)
-      }
-      const response = await fetch(URL, OPTIONS)
-      const data = await response.json()
-      if (response.ok) {
-        localStorage.setItem('user', data)
-        this.$router.push({ path: '/private' })
-      } else {
-        switch (data.error.message) {
-          case 'INVALID_EMAIL':
-            this.errors.email = 'Неверный email'
-            break
-          case 'EMAIL_EXISTS':
-            this.errors.email = 'Такой email уже есть'
-            break
-          case 'WEAK_PASSWORD : Password should be at least 6 characters':
-            this.errors.password = 'Пароль должен превышать 6 символов'
-            break
-          default:
-            this.$notify({
-              title: data.error.message,
-              type: 'error'
-            });
-        }
-      }
-    },
+    register() {
+      localStorage.setItem('email', this.formData.email)
+      console.log(this.formData.email)
+    }
   },
 }
 </script>
@@ -194,6 +161,7 @@ form {
 }
 
 .main-wrapper {
+  height: 100vh;
   background: #1a1a1a ;
   display: flex;
   justify-content: center;
@@ -202,13 +170,12 @@ form {
 
 .form-wrap {
   background: white;
-  height: 55%;
-  width: 30%;
+  width: 90%;
+  padding: 0 0 20px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   border-radius: 20px;
   -webkit-box-shadow: 29px -31px 87px 0px rgba(34, 60, 80, 0.2);
   -moz-box-shadow: 29px -31px 87px 0px rgba(34, 60, 80, 0.2);
