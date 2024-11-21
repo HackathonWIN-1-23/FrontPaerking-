@@ -193,7 +193,6 @@ form {
 }
 
 .main-wrapper {
-  background: forestgreen;
   height: 100vh;
   display: flex;
   justify-content: center;
