@@ -14,7 +14,7 @@
           <label for="inp3">Электронная почта</label>
           <input id="inp3" v-model="formData.email" type="email" required>
           <p v-if="errors.email.length">{{ errors.email }}</p>
-          <label for="inp4">Пароль"</label>
+          <label for="inp4">Пароль</label>
           <input id="inp4" required v-model="formData.password" :type="show2 ? 'text' : 'password'">
           <p v-if="errors.password.length">{{ errors.password }}</p>
         </div>
@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="rout">
-          <router-link class="okk" to="/login">Войт </router-link>
+          <router-link class="okk" to="/login">Войти </router-link>
         </div>
       </form>
     </div>
@@ -117,6 +117,7 @@ form {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 300%;
 }
 
 .okk:hover::before {
@@ -193,8 +194,7 @@ form {
 }
 
 .main-wrapper {
-  background: forestgreen;
-  height: 100vh;
+  background: #1a1a1a ;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,6 +1,6 @@
 <template>
   <div class="booking-form">
-    <h2>Форма бронирования</h2>
+    <h2 class="ahah">Форма бронирования</h2>
     <form @submit.prevent="bookSpot">
       <label for="spotId">Выберите время парковки</label>
       <label>От:</label>
@@ -8,7 +8,7 @@
       <label>До:</label>
       <input type="datetime-local" id="spotId2" v-model="spotId2" placeholder="" required />
 
-      <button type="submit">Забронировать</button>
+      <button class="bron" type="submit">Забронировать</button>
     </form>
   </div>
 </template>
@@ -33,6 +33,10 @@ const bookSpot = () => {
   border: 1px solid #ccc;
   border-radius: 8px;
   justify-content: center;
+  background: white;
+  height: 40vh;
+
+
 }
 
 .booking-form form {
@@ -52,9 +56,20 @@ const bookSpot = () => {
 }
   .booking-form button {
   padding: 10px;
-  background-color: #4CAF50;
+  background-color: #985ACE;
   color: white;
   border: none;
   border-radius: 4px;
+
 }
+
+  .ahah {
+    text-transform: uppercase;
+    font-family: "Gill Sans", sans-serif;
+    font-weight: 600;
+    text-align: center;
+  }
+  .bron {
+    font-family: "Gill Sans", sans-serif;
+  }
 </style>
