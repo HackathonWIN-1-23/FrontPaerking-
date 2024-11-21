@@ -3,7 +3,7 @@
   <div class="main-wrapper">
     <div class="form-wrap">
       <div class="nammm">
-        <h2>Пройти регистрацию</h2>
+        <h2>Регистрация</h2>
       </div>
       <form class="double-wrap" @submit.prevent="register">
         <div class="inp-wrap">
@@ -193,7 +193,7 @@ form {
 }
 
 .main-wrapper {
-  background: #985ACE;
+  background: forestgreen;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -228,4 +228,10 @@ label {
   font-family: "Gill Sans", sans-serif;
   font-weight: 600;
 
-}</style>
+}
+
+img {
+  transform: translateX(10px);
+
+}
+</style>

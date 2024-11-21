@@ -25,6 +25,33 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/Auth.vue'),
     },
+    {
+      path: '/agree',
+      name: 'agree',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/AgreeView.vue'),
+    },
+    {
+      path: '/list',
+      name: 'list',
+      component: () => import('../views/ListView.vue'),
+    },
+    {
+      path: '/booking',
+      name: 'booking',
+      component: () => import('../views/BookingForm.vue'),
+    }, {
+      path: '/footer',
+      name: 'footer',
+      component: () => import('../views/FooterVue.vue'),
+    },
+    {
+      path: '/side',
+      name: 'side',
+      component: () => import('../views/Sidebar.vue'),
+    }
   ],
 })
 
