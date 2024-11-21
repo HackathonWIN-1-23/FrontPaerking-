@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="rout">
-          <router-link class="okk" to="/login">Войт </router-link>
+          <router-link class="okk" to="/">Войт </router-link>
         </div>
       </form>
     </div>
@@ -203,7 +203,6 @@ form {
 .form-wrap {
   background: white;
   height: 55%;
-  width: 30%;
   display: flex;
   flex-direction: column;
   justify-content: center;
