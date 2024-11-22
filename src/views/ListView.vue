@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <Sidebar/>
     <div class="content">
       <ul v-if="parkingLots.length" class="parking-list">
         <li

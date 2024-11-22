@@ -1,4 +1,5 @@
 <template>
+  <Sidebar/>
   <div style="padding-top: 20px;">
     <div class="parking-lot-wrapper">
       <div class="parking-lot">
@@ -27,7 +28,7 @@
   </div>
   <div v-if="selectedPlace" class="place-details">
     <h3>Информация о месте</h3>
-    <p><strong>ID:</strong> {{ selectedPlace.number }}</p>
+    <p><strong>Номер парковочного места:</strong> {{ selectedPlace.number }}</p>
     <p style="margin-bottom: 20px"><strong>Статус:</strong> {{ selectedPlace.is_free ? 'Свободно' : 'Занято' }}</p>
     <button @click="bookSelectedPlace" :disabled="!selectedPlace.is_free" class="bron">
       Забронировать
@@ -37,11 +38,12 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const parkingPlaces = ref([]);
 const selectedPlace = ref(null);
 const route = useRoute();
+const router = useRouter();
 const id = route.params.id;
 
 const spotId = ref("");
@@ -106,6 +108,7 @@ const bookSelectedPlace = async () => {
     if (response.ok) {
       alert("Бронирование успешно!");
       selectedPlace.value = null;
+      router.push(`/parkings`);
     } else {
       const errorData = await response.json();
       alert(`Ошибка: ${errorData.message || "Не удалось забронировать место."}`);
