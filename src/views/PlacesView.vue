@@ -50,7 +50,7 @@ const spotId = ref("");
 const spotId2 = ref("");
 
 onMounted(async () => {
-  const URL = `http://192.168.88.82:8001/api/parkings/${id}/places/`;
+  const URL = `http://127.0.0.1:8000/api/parkings/${id}/places/`;
   try {
     const response = await fetch(URL, {
       headers: {
@@ -68,7 +68,7 @@ onMounted(async () => {
 const findPlaces = async () => {
   const startTime = new Date(spotId.value).toISOString();
   const endTime = new Date(spotId2.value).toISOString();
-  const URL = `http://192.168.88.82:8001/api/available-places/?parking=${id}&start_time=${startTime}&end_time=${endTime}`;
+  const URL = `http://127.0.0.1:8000/api/available-places/?parking=${id}&start_time=${startTime}&end_time=${endTime}`;
   try {
     const response = await fetch(URL, {
       headers: {
@@ -90,7 +90,7 @@ const selectPlace = (place) => {
 const bookSelectedPlace = async () => {
   if (!selectedPlace.value.is_free) return;
 
-  const URL = "http://192.168.88.82:8001/api/bookings/";
+  const URL = "http://127.0.0.1:8000/api/bookings/";
   try {
     const response = await fetch(URL, {
       method: "POST",

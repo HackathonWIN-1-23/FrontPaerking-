@@ -32,7 +32,7 @@ const activeParkingId = ref(null);
 const router = useRouter();
 
 onMounted(async () => {
-  const apiUrl = "http://192.168.88.82:8001/api/parkings";
+  const apiUrl = "http://127.0.0.1:8000/api/parkings";
   try {
     const response = await fetch(apiUrl);
     if (!response.ok) {
