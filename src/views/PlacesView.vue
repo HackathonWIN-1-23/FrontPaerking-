@@ -7,114 +7,167 @@
             :key="place.id"
             class="parking-spot"
             :class="{ free: place.is_free, occupied: !place.is_free }"
+            @click="selectPlace(place)"
         >
-          <span>{{ place.id }}</span>
+          <span>{{ place.number }}</span>
         </div>
       </div>
     </div>
   </div>
   <div class="booking-form">
     <h2 class="ahah">Форма бронирования</h2>
-    <form @submit.prevent="bookSpot">
+    <form @submit.prevent="findPlaces">
       <label for="spotId">Выберите время парковки</label>
       <label>От:</label>
-      <input type="datetime-local" id="spotId" v-model="spotId" placeholder="" required step="3600"/>
+      <input type="datetime-local" id="spotId" v-model="spotId" required step="3600" />
       <label>До:</label>
-      <input type="datetime-local" id="spotId2" v-model="spotId2" placeholder="" required step="3600" z/>
+      <input type="datetime-local" id="spotId2" v-model="spotId2" required step="3600" />
       <button class="bron" type="submit">Найти место</button>
     </form>
+  </div>
+  <div v-if="selectedPlace" class="place-details">
+    <h3>Информация о месте</h3>
+    <p><strong>ID:</strong> {{ selectedPlace.number }}</p>
+    <p style="margin-bottom: 20px"><strong>Статус:</strong> {{ selectedPlace.is_free ? 'Свободно' : 'Занято' }}</p>
+    <button @click="bookSelectedPlace" :disabled="!selectedPlace.is_free" class="bron">
+      Забронировать
+    </button>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
 
 const parkingPlaces = ref([]);
+const selectedPlace = ref(null);
 const route = useRoute();
+const id = route.params.id;
+
+const spotId = ref("");
+const spotId2 = ref("");
 
 onMounted(async () => {
-  const id = route.params.id;
-  const URL = `http://192.168.88.82:8000/api/parkings/${id}/places/`;
-
+  const URL = `http://192.168.88.82:8001/api/parkings/${id}/places/`;
   try {
-    // const response = await fetch(URL);
-    // const data = await response.json();
-    const data = [
-      { id: 1, is_free: true },
-      { id: 2, is_free: false },
-      { id: 3, is_free: true },
-      { id: 4, is_free: false },
-      { id: 5, is_free: true },
-      { id: 6, is_free: false },
-      { id: 7, is_free: true },
-      { id: 8, is_free: true },
-    ];
+    const response = await fetch(URL, {
+      headers: {
+        Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyMzA2NjkzLCJpYXQiOjE3MzIyMjAyOTMsImp0aSI6IjVlY2VkZWUwZDM4MTQ4ODA4ZmFjNzhlMmEwNzI1YjZiIiwidXNlcl9pZCI6M30.cfdsZ52DBukeASPFO13_C1cKRE96DVabkOZuIpennME",
+      },
+    });
+    const data = await response.json();
     parkingPlaces.value = data;
   } catch (error) {
     console.error("Ошибка загрузки данных:", error);
   }
 });
 
-const spotId = ref('');
-const spotId2 = ref('');
+const findPlaces = async () => {
+  const startTime = new Date(spotId.value).toISOString();
+  const endTime = new Date(spotId2.value).toISOString();
+  const URL = `http://192.168.88.82:8001/api/available-places/?parking=${id}&start_time=${startTime}&end_time=${endTime}`;
+  try {
+    const response = await fetch(URL, {
+      headers: {
+        Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyMzA2NjkzLCJpYXQiOjE3MzIyMjAyOTMsImp0aSI6IjVlY2VkZWUwZDM4MTQ4ODA4ZmFjNzhlMmEwNzI1YjZiIiwidXNlcl9pZCI6M30.cfdsZ52DBukeASPFO13_C1cKRE96DVabkOZuIpennME",
+      },
+    });
+    const data = await response.json();
+    parkingPlaces.value = data;
+  } catch (error) {
+    console.error("Ошибка загрузки данных:", error);
+  }
+};
 
-const bookSpot = () => {
-  alert(`Место ${spotId.value} забронировано`);
+const selectPlace = (place) => {
+  selectedPlace.value = place;
+};
+
+const bookSelectedPlace = async () => {
+  if (!selectedPlace.value.is_free) return;
+
+  const URL = "http://192.168.88.82:8001/api/bookings/";
+  try {
+    const response = await fetch(URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        place: selectedPlace.value.id,
+        datetime_at: new Date(spotId.value).toISOString(),
+        datetime_to: new Date(spotId2.value).toISOString(),
+        auto: 2
+      }),
+    });
+
+    if (response.ok) {
+      alert("Бронирование успешно!");
+      selectedPlace.value = null;
+    } else {
+      const errorData = await response.json();
+      alert(`Ошибка: ${errorData.message || "Не удалось забронировать место."}`);
+    }
+  } catch (error) {
+    console.error("Ошибка бронирования:", error);
+    alert("Произошла ошибка при бронировании.");
+  }
 };
 </script>
-
 <style scoped>
 .parking-lot-wrapper {
   overflow-x: auto;
-  padding: 20px 0;
+  padding: 20px;
+  white-space: nowrap;
+  background: #f9f9f9;
 }
 
 .parking-lot {
-  display: flex;
-  gap: 25px;
-  white-space: nowrap;
+  display: inline-flex;
+  gap: 12px;
+}
+
+.place-details {
+  color: white;
+  margin: 20px 0 20px 40px;
 }
 
 .parking-spot {
-  width: 100px;
+  min-width: 100px;
   height: 50px;
   background-color: lightgreen;
   border: 2px solid #ccc;
-  position: relative;
-  transform: rotate(-45deg);
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
   color: white;
-  transition: background-color 0.3s ease;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s;
+  cursor: pointer;
 }
 
 .parking-spot.occupied {
   background-color: red;
 }
 
-.parking-spot.free {
-  background-color: lightgreen;
+.parking-spot.free:hover {
+  transform: scale(1.1);
 }
 
 .parking-spot span {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   font-size: 20px;
 }
 
 .booking-form {
   max-width: 320px;
   margin: 40px auto;
-  padding: 20px 20px 0 20px;
+  padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  justify-content: center;
   background: white;
-  height: 30vh;
 }
 
 .booking-form form {
@@ -133,14 +186,6 @@ const bookSpot = () => {
   border: 1px solid #ccc;
 }
 
-.booking-form button {
-  padding: 10px;
-  background-color: #985ACE;
-  color: white;
-  border: none;
-  border-radius: 4px;
-}
-
 .ahah {
   text-transform: uppercase;
   font-family: "Gill Sans", sans-serif;
@@ -150,5 +195,10 @@ const bookSpot = () => {
 
 .bron {
   font-family: "Gill Sans", sans-serif;
+  padding: 10px;
+  background-color: #985ace;
+  color: white;
+  border: none;
+  border-radius: 4px;
 }
 </style>

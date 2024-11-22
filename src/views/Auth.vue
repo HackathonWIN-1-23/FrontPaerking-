@@ -51,7 +51,7 @@ export default {
   methods: {
     register() {
       localStorage.setItem('email', this.formData.email)
-      this.$router.push('/')
+      this.$router.push('/parkings')
     }
   },
 }

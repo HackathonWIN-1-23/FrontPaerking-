@@ -16,7 +16,7 @@
           </p>
         </li>
       </ul>
-      <p v-else>Загрузка списка парковок...</p>
+      <h2 v-else style="text-align: center">Загрузка списка парковок...</h2>
     </div>
   </div>
 </template>
@@ -30,17 +30,10 @@ const activeParkingId = ref(null);
 
 const router = useRouter();
 
-const authToken =
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyMzE1MDIwLCJpYXQiOjE3MzIyMjg2MjAsImp0aSI6ImNhMGQ2ZDBhZDAzOTRjOTlhNTBjMWM4N2IwZWRmYTY2IiwidXNlcl9pZCI6MTA1fQ.aNiAZTmPH4mIfj_W9iazz7vKTBt_wO-pssQ4Q1FnSLk";
-
 onMounted(async () => {
   const apiUrl = "http://192.168.88.82:8001/api/parkings";
   try {
-    const response = await fetch(apiUrl, {
-      headers: {
-        Authorization: authToken,
-      },
-    });
+    const response = await fetch(apiUrl);
     if (!response.ok) {
       throw new Error("Ошибка при загрузке парковок.");
     }
@@ -66,6 +59,7 @@ const goToParking = (id) => {
 .content {
   flex: 1;
   padding: 20px;
+  color: white;
 }
 
 .parking-list {
