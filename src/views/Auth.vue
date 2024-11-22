@@ -170,13 +170,13 @@ form {
 
 .form-wrap {
   background: white;
-<<<<<<< HEAD
+
   height: 60vh;
   width: 50%;
-=======
+
   width: 90%;
   padding: 0 0 20px 0;
->>>>>>> 7faca1f34368b67297319f2f7c56b32e71b05fe2
+
   display: flex;
   flex-direction: column;
   justify-content: center;

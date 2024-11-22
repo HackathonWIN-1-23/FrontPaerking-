@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import PlacesView from "@/views/PlacesView.vue";
+import Booking from "../views/BookingForm.vue";
+import Auth from "@/views/Auth.vue";
+import FooterVue from "../views/FooterVue.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,6 +62,8 @@ const router = createRouter({
       component: PlacesView,
     },
   ],
-})
 
-export default router
+
+});
+
+export default router;
